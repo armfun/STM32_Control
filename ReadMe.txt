@@ -1,25 +1,23 @@
-¹ØÓÚÔ´ÂëµÄËµÃ÷:
+å…³äºæºç çš„è¯´æ˜:
 
-1.PC¶Ë³ÌĞò(WPF):
-  (1).¿ª·¢¹¤¾ßÎªVisual Studio 2012;
-  (2).»ùÓÚ.NET Framwork 4;
-  (3).WPF³ÌĞò.
+1.PCç«¯ç¨‹åº(WPF):
+  (1).å¼€å‘å·¥å…·ä¸ºVisual Studio 2012;
+  (2).åŸºäº.NET Framwork 4;
+  (3).WPFç¨‹åº.
 
-2.ÊÖ»ú¶Ë³ÌĞò(Silverlight):
-  (1).¿ª·¢¹¤¾ßÎªVisual Studio 2012;
-  (2).»ùÓÚ.NET Framwork 4;
-  (3).»ùÓÚWindows Phone 7.1µÄSilverlight³ÌĞò.
+2.æ‰‹æœºç«¯ç¨‹åº(Silverlight):
+  (1).å¼€å‘å·¥å…·ä¸ºVisual Studio 2012;
+  (2).åŸºäº.NET Framwork 4;
+  (3).åŸºäºWindows Phone 7.1çš„Silverlightç¨‹åº.
 
-3.STM32¶Ë³ÌĞò(C):
-  (1).¿ª·¢¹¤¾ßÎªKeil¹«Ë¾µÄMDK¿ª·¢Ì×¼ş(http://www.keil.com/arm/mdk.asp);
-  (2).Ó²¼şÆ½Ì¨ÎªĞÍºÅÎªSTM32F103ZET6.
+3.STM32ç«¯ç¨‹åº(C):
+  (1).å¼€å‘å·¥å…·ä¸ºKeilå…¬å¸çš„MDKå¼€å‘å¥—ä»¶(http://www.keil.com/arm/mdk.asp);
+  (2).ç¡¬ä»¶å¹³å°ä¸ºå‹å·ä¸ºSTM32F103ZET6.
   
-°æ±¾¿ØÖÆ¹¤¾ß£º
+ç‰ˆæœ¬æ§åˆ¶å·¥å…·ï¼š
 msysgit(http://msysgit.github.io/)
 tortoisegit(https://code.google.com/p/tortoisegit/wiki/Download)
 
-´úÂëÍĞ¹ÜÆ½Ì¨:
-http://git.oschina.net/
 
 
 
