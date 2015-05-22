@@ -1,0 +1,43 @@
+﻿<Window x:Class="STM32Control.ExceptionReportView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ExceptionReportView" Height="400" Width="500" ResizeMode="NoResize" Icon="/STM32Control;component/Images/logo.ico">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="56*" />
+            <ColumnDefinition Width="148*" />
+            <ColumnDefinition Width="75*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="38*" />
+            <ColumnDefinition Width="10*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="75" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="130" Name="HideRow"/>
+            <RowDefinition Height="15" />
+            <RowDefinition Height="6*" />
+        </Grid.RowDefinitions>
+        <Rectangle Grid.Row="4" Grid.RowSpan="5" Grid.ColumnSpan="7"  IsHitTestVisible="False" Fill="#F0F1FE">
+        </Rectangle>
+        <TextBlock Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" FontSize="14" FontWeight="Bold" Text="程序遇到未知错误.你可以通过发送不含有个人信息的错误报告来帮助我们修复该错误."   TextWrapping="Wrap"/>
+        <TextBlock Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="5" HorizontalAlignment="Stretch"  Text="请你描述一下该错误发生时你在进行什么操作" VerticalAlignment="Stretch"  />
+        <Border  BorderThickness="1"  BorderBrush="Black" Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="5" IsHitTestVisible="False"></Border>
+        <TextBox Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="5" HorizontalAlignment="Stretch"  Name="tb_Describe" VerticalAlignment="Stretch" TextWrapping="Wrap"
+                   ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"  AcceptsReturn="True"/>
+        <CheckBox  Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="6" HorizontalAlignment="Stretch"  Content="发送匿名信息" Name="CbkPersonalInfo" VerticalAlignment="Stretch" IsChecked="True" />
+        <Button  Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Name="btnDetail" VerticalAlignment="Stretch" Template="{DynamicResource btnDetail}" Click="btnDetail_Click"/>
+        <Button Grid.Column="3" Grid.Row="5" HorizontalAlignment="Stretch" Name="btnEmail" VerticalAlignment="Stretch" Template="{DynamicResource btnEmail}" Click="btnEmail_Click" />
+        <Button  Grid.Column="5" Grid.Row="5" HorizontalAlignment="Stretch"  Name="btnClose" Template="{DynamicResource btnClose}"  Click="btnClose_Click"/>
+        <TextBox Grid.Column="1" Grid.Row="7"  HorizontalAlignment="Stretch" Name="tb_Error" Text="" VerticalAlignment="Stretch" Grid.ColumnSpan="5" Background="{x:Null}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+         ScrollViewer.VerticalScrollBarVisibility="Auto"
+         ScrollViewer.CanContentScroll="True" TextWrapping="Wrap" IsReadOnly="True"></TextBox>
+    </Grid>
+</Window>

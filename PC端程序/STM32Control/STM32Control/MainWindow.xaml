@@ -1,0 +1,442 @@
+﻿<Window x:Class="STM32Control.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Stm32 V2.0.1" Height="620" Width="870" WindowStartupLocation="CenterScreen" FontSize="15"
+        ShowInTaskbar="True"  Name="layoutroot"
+        Style="{DynamicResource NoResize_window}" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Window.Background>
+        <ImageBrush ImageSource="Images/bg.png" Stretch="Uniform"/>
+    </Window.Background>
+    <Window.Resources>
+        <Storyboard x:Key="shrink">
+            <DoubleAnimation From="1" To="0" Duration="0:0:.6"
+                                 Storyboard.TargetName="layoutroot"
+                                 Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].Offset"/>
+            <DoubleAnimation Duration="0:0:.45" BeginTime="0:0:.15" From="1" To="0"
+                                 Storyboard.TargetName="layoutroot"
+                                 Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].Offset"/>
+            <ColorAnimation  Duration="0" From="#FF000000" To="#00000000" Storyboard.TargetName="layoutroot"
+                                 Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].Color"/>
+        </Storyboard>
+        <Storyboard x:Key="spread">
+            <DoubleAnimation From="0" To="1" Duration="0:0:.6"
+                                 Storyboard.TargetName="layoutroot"
+                                 Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].Offset"/>
+            <DoubleAnimation Duration="0:0:.45" BeginTime="0:0:.15" From="0" To="1"
+                                 Storyboard.TargetName="layoutroot"
+                                 Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].Offset"/>
+            <ColorAnimation BeginTime="0:0:.6" Duration="0" From="#00000000" To="#FF000000" Storyboard.TargetName="layoutroot"
+                                 Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].Color" />
+        </Storyboard>
+    </Window.Resources>
+    <Window.OpacityMask>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#00000000" Offset="0"/>
+            <GradientStop Color="#FF000000" Offset="0"/>
+        </LinearGradientBrush>
+    </Window.OpacityMask>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="18*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Button x:Name="btn_Close" Content="Button" HorizontalAlignment="Right" Height="24" Style="{DynamicResource CloseButtonStyle}" VerticalAlignment="Top" Width="39.75" Margin="0,1,0,0" Click="btnClose_Click"/>
+            <Button x:Name="btn_MinSize" Content="Button" HorizontalAlignment="Right" Height="24" Style="{DynamicResource MinSizeButtonStyle}" VerticalAlignment="Top" Width="39.75" Margin="0,1,39.75,0" Click="btnMinsize_Click"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Horizontal" MaxHeight="40">
+                <Border Width="80"/>
+                <TextBlock Text="硬件名称:" Name="tb_ConstID"/>
+                <TextBlock x:Name="tb_ID" Text="STM32" Width="80"/>
+                <TextBlock Text="硬件密码:" Name="tb_ConstPWD"/>
+                <TextBlock x:Name="tb_PWD" Text="123456" Width="80"/>
+                <TextBlock Text="硬件地址:" Name="tb_ConstIP"/>
+                <TextBlock x:Name="tb_IP" Text="192.168.1.16" Width="120"/>
+                <Border Width="20"/>
+                <TextBlock Text="端口:" Name="tb_ConstPort"/>
+                <TextBlock x:Name="tb_Port" Text="1200" Width="40"/>
+                <Border Width="20"/>
+            </StackPanel>
+            <Button Height="30" Width="40" Background="Transparent" BorderThickness="0" x:Name="btn_Connect" Content="连接"  Click="BtnConnect_Click" ToolTip="连接到硬件" Style="{DynamicResource NormalButtonStyle}" Margin="690,14,120,34"/>
+            <Button Height="30" Width="40" Background="Transparent" BorderThickness="0" x:Name="btn_Alert" Content="修改" Click="BtnAlert_Click" ToolTip="修改连接信息" Style="{DynamicResource NormalButtonStyle}" Margin="755,14,55,34"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox Grid.Column="1" Name="LstInfo" Background="Transparent"/>
+            <Grid Grid.Column="0">
+                <TabControl TabStripPlacement="Left" Background="Transparent" Name="tab_Functions">
+                    <TabControl.Resources>
+                        <Style TargetType="{x:Type TabItem}">
+                            <Setter Property="Padding" Value="5" />
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <ContentPresenter Content="{TemplateBinding Property=ContentControl.Content}">
+                                            <ContentPresenter.LayoutTransform>
+                                                <RotateTransform Angle="-90" />
+                                            </ContentPresenter.LayoutTransform>
+                                        </ContentPresenter>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+                    <TabItem Header="数字输出" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="5*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btn_GetDigit" Content="获取数字状态" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BtnGetDigitalAndAnalog_Click" Width="100" Height="30" ToolTip="获取数字端口的电平状态"  
+                                    Style="{DynamicResource NormalButtonStyle}" Background="#32CD32" Foreground="White" FontWeight="Light" FontFamily="Comic Sans MS"/>
+                            <ToggleButton x:Name="tb_IO_01" Tag="IO1:" Content="IO1:ON" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          Checked="tb_IO_Checked" Unchecked="tb_IO_Unchecked" IsChecked="True" Click="tbSetDigital_Click" Width="80" Height="30" BorderThickness="0"/>
+                            <ToggleButton x:Name="tb_IO_02" Tag="IO2:" Content="IO2:ON" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          Checked="tb_IO_Checked" Unchecked="tb_IO_Unchecked" IsChecked="True" Click="tbSetDigital_Click" Width="80" Height="30" BorderThickness="0"/>
+                            <ToggleButton x:Name="tb_IO_03" Tag="IO3:" Content="IO3:ON" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          Checked="tb_IO_Checked" Unchecked="tb_IO_Unchecked" IsChecked="True" Click="tbSetDigital_Click" Width="80" Height="30" BorderThickness="0"/>
+                            <ToggleButton x:Name="tb_IO_04" Tag="IO4:" Content="IO4:ON" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          Checked="tb_IO_Checked" Unchecked="tb_IO_Unchecked" IsChecked="True" Click="tbSetDigital_Click" Width="80" Height="30" BorderThickness="0"/>
+                            <ToggleButton x:Name="tb_IO_05" Tag="IO5:" Content="IO5:ON" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          Checked="tb_IO_Checked" Unchecked="tb_IO_Unchecked" IsChecked="True" Click="tbSetDigital_Click" Width="80" Height="30" BorderThickness="0"/>
+                            <ToggleButton x:Name="tb_IO_06" Tag="IO6:" Content="IO6:ON" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          Checked="tb_IO_Checked" Unchecked="tb_IO_Unchecked" IsChecked="True" Click="tbSetDigital_Click" Width="80" Height="30" BorderThickness="0"/>
+                            <ToggleButton x:Name="tb_IO_07" Tag="IO7:" Content="IO7:ON" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          Checked="tb_IO_Checked" Unchecked="tb_IO_Unchecked" IsChecked="True" Click="tbSetDigital_Click" Width="80" Height="30" BorderThickness="0"/>
+                            <ToggleButton x:Name="tb_IO_08" Tag="IO8:" Content="IO8:ON" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          Checked="tb_IO_Checked" Unchecked="tb_IO_Unchecked" IsChecked="True" Click="tbSetDigital_Click" Width="80" Height="30" BorderThickness="0"/>
+                            <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"/>
+                            <RichTextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Background="Transparent" BorderThickness="0" >
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run>功能简介:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>数字输出端口是用来控制引脚输出高低电平,可以控制一些LED灯或者外接继电器来控制一些大电路.</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>引脚定义:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>IO1--PF1 IO2--PF2</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>IO3--PF3 IO4--PF4</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>IO5--PF5 IO6--PF6</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>IO7--PF7 IO8--PF8</Run>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="模拟端口" Background="Transparent">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btn_GetAnalog" Content="获取模拟状态" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                    Click="BtnGetDigitalAndAnalog_Click" Width="100" Height="30" ToolTip="获取模拟端口的状态" 
+                                    Style="{DynamicResource NormalButtonStyle}" Background="#32CD32" Foreground="White" FontWeight="Light" FontFamily="Comic Sans MS"/>
+                            <TextBlock Text="A1:" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="A2:" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="A3:" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="A4:" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="A5:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="A6:" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="A7:" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_A1" Text="" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_A2" Text="" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_A3" Text="" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_A4" Text="" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_A5" Text="" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_A6" Text="" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_A7" Text="" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Separator Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8"/>
+                            <RichTextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" Background="Transparent" BorderThickness="0">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run>功能简介:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>模拟端口是用来读取端口传入的模拟信号.计算值的公式为:电压(v)=值÷(4096*3.3)</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>引脚定义:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>A1--PA0 A2--PA1</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>A3--PA2 A4--PA3</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>A5--PA4 A6--PA5</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>A7--PA6 </Run>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="脉冲宽度" Background="Transparent">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="4*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="16*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="P1:" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="P2:" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="P3:" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="P4:" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <Slider IsSnapToTickEnabled="True" x:Name="sd_Pulse1" Grid.Row="0" Grid.Column="2" Maximum="255" SmallChange="1" LargeChange="5" VerticalAlignment="Center" ValueChanged="SdValueChanged_Click"/>
+                            <Slider IsSnapToTickEnabled="True" x:Name="sd_Pulse2" Grid.Row="1" Grid.Column="2" Maximum="255" SmallChange="1" LargeChange="5" VerticalAlignment="Center" ValueChanged="SdValueChanged_Click"/>
+                            <Slider IsSnapToTickEnabled="True" x:Name="sd_Pulse3" Grid.Row="2" Grid.Column="2" Maximum="255" SmallChange="1" LargeChange="5" VerticalAlignment="Center" ValueChanged="SdValueChanged_Click"/>
+                            <Slider IsSnapToTickEnabled="True" x:Name="sd_Pulse4" Grid.Row="3" Grid.Column="2" Maximum="255" SmallChange="1" LargeChange="5" VerticalAlignment="Center" ValueChanged="SdValueChanged_Click"/>
+                            <TextBlock Text="{Binding ElementName=sd_Pulse1,Path=Value}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="40"/>
+                            <TextBlock Text="{Binding ElementName=sd_Pulse2,Path=Value}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="40"/>
+                            <TextBlock Text="{Binding ElementName=sd_Pulse3,Path=Value}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="40"/>
+                            <TextBlock Text="{Binding ElementName=sd_Pulse4,Path=Value}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="40"/>
+                            <Separator Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <RichTextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Background="Transparent" BorderThickness="0">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run>功能简介:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>脉冲宽度是用来输出一定范围的值(0~255)来控制一些电路,如灯的明亮程度,电机的转数等.</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>引脚定义:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>P1--PA8  P2--PA9</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>P3--PA10 P4--PA11</Run>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="温度湿度" Background="Transparent">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="温度: " Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="湿度: " Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_Temperature" Text="" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_Humidity" Text="" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <ListBox x:Name="LstHumiture" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="Transparent">
+                                <ListBoxItem>
+                                    <TextBlock Text="过往温湿度:"/>
+                                </ListBoxItem>
+                            </ListBox>
+                            <Button x:Name="btn_GetHumiture" Content="获取温湿度" Grid.Row="0" Grid.Column="4" Click="BtnGetHumiture_Click" Margin="25,20,98,15" Width="90" Height="30"  
+                                    Style="{DynamicResource NormalButtonStyle}" Background="#32CD32" Foreground="White" FontWeight="Light" FontFamily="Comic Sans MS"/>
+                            <Separator Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"/>
+                            <RichTextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Background="Transparent" BorderThickness="0">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run>功能简介:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>温度湿度是用DHT11获取温度和湿度.</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>引脚定义:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>DQ--PG11</Run>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="红外收发" Background="Transparent">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="4*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <!--<TextBlock Text="接口: " Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>-->
+                            <!--<TextBox x:Name="tb_IRLearnPin" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="100"/>-->
+                            <Button Click="BtnIRLearn_Click"  x:Name="btn_IRLearn" Grid.Row="0" Grid.Column="0" Content="开始学习" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30"  
+                                    Style="{DynamicResource NormalButtonStyle}" Background="#32CD32" Foreground="White" FontWeight="Light" FontFamily="Comic Sans MS"/>
+                            <Button Click="BtnIRSend_Click"  x:Name="btn_IRSend" Grid.Row="0" Grid.Column="1" Content="模拟发射" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30"  
+                                    Style="{DynamicResource NormalButtonStyle}" Background="#32CD32" Foreground="White" FontWeight="Light" FontFamily="Comic Sans MS"/>
+                            <ListBox x:Name="LstIR" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent">
+                                <ListBoxItem>
+                                    <TextBlock Text="状态:"/>
+                                </ListBoxItem>
+                            </ListBox>
+                            <Separator Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                            <RichTextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" BorderThickness="0">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run>功能简介:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>红外功能是用来学习收到的红外编码,并解码记录.然后通过模拟发射来发送信号.支持NEC Protocol编码格式.</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>引脚定义:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>接收器引脚:OUT--PB9</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>发射器引脚:SIG--PC6</Run>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </Grid>
+                    </TabItem>
+                    <!--<TabItem Header="伺服电机" Background="Transparent">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="10*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="接口: " Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox x:Name="tb_ServoPin" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="100"/>
+                    <Button x:Name="btn_SetServoPin" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Content="设置接口" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
+                                <TextBlock Text="角度: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox x:Name="tb_ServoAngle" Width="100" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="20"/>
+                                <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="btn_SetServoAngle" Content="发射角度" Width="100" Height="30" 
+                                        Style="{DynamicResource NormalButtonStyle}" Background="#32CD32" Foreground="White" FontWeight="Light" FontFamily="Comic Sans MS"/>
+                            </StackPanel>
+                            <TextBlock x:Name="tb_WarningServoAngle" Text="*请输入角度(0-180)" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Visibility="Collapsed" Margin="10,34,452,25" Grid.RowSpan="2"/>
+                            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"/>
+                            <RichTextBox Grid.Row="2" Background="Transparent" BorderThickness="0">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run>功能简介:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>伺服电机是用来控制步进机旋转角度的功能.</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>引脚定义:</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>尚未完成</Run>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run>尚未完成</Run>
+                                    </Paragraph>
+                                </FlowDocument>
+
+                            </RichTextBox>
+                        </Grid>
+                    </TabItem>-->
+                    <!--<TabItem Header="无线串口">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="比特率: " Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox x:Name="tb_BitRate" Text="" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
+                    <Button x:Name="btn_SerialOn" Content="启用" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ListBox x:Name="LstSerialRecieve" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4" >
+                        <ListBoxItem>
+                            <TextBlock Text="接受数据:"/>
+                        </ListBoxItem>
+                    </ListBox>
+                    <ListBox x:Name="LstSerialSend" Grid.Row="0" Grid.RowSpan="3" Grid.Column="4" Grid.ColumnSpan="4" >
+                        <ListBoxItem>
+                            <TextBlock Text="发送数据:"/>
+                        </ListBoxItem>
+                    </ListBox>
+                    <TextBox x:Name="tb_SerialSend" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    <Button x:Name="btn_SerialSend" Grid.Row="3" Grid.Column="7" Content="发送" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </TabItem>-->
+
+                </TabControl>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="3">
+            <StatusBar Height="31.5" VerticalAlignment="Bottom" Style="{DynamicResource StatusBarStyle}" Margin="0">
+                <StatusBar.Background>
+                    <ImageBrush ImageSource="Images/StatusBarBg.bmp"/>
+                </StatusBar.Background>
+                <StatusBarItem Content="主程序版本:2.0.1    作者:杨小杰      邮箱:youngytj@sina.com    仅供演示" Margin="7,0,0,0"/>
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>

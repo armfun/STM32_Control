@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--UI-->
+    <system:String x:Key="UI_DeviceID">Name:</system:String>
+    <system:String x:Key="UI_DeviceIP">IP:</system:String>
+    <system:String x:Key="UI_DevicePort">Port:</system:String>
+    <system:String x:Key="UI_DevicePassword">Password:</system:String>
+    
+    <system:String x:Key="UI_Connect">Connect</system:String>
+    <system:String x:Key="UI_Modify">Modify</system:String>
+    
+    <system:String x:Key="UI_Digit">Digit</system:String>
+    <system:String x:Key="UI_Analog">Analog</system:String>
+    <system:String x:Key="UI_Impulse">Impulse</system:String>
+    <system:String x:Key="UI_Humiture">Humiture</system:String>
+    <system:String x:Key="UI_IR">Infrared</system:String>
+
+
+    <system:String x:Key="UI_GetDigit">GetDigitLevel</system:String>
+    <system:String x:Key="UI_GetAnalog">GetAnalogData</system:String>
+    
+    
+    <!--MSG-->
+    <system:String x:Key="MSG_Error">Error</system:String>
+</ResourceDictionary>

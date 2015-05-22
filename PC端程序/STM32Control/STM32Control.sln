@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STM32Control", "STM32Control\STM32Control.csproj", "{E681A80D-D338-4C70-BC45-13986EF13194}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STM32Core", "STM32Core\STM32Core.csproj", "{50A4EB77-9A47-48A6-AC13-EB845DA09434}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E681A80D-D338-4C70-BC45-13986EF13194}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E681A80D-D338-4C70-BC45-13986EF13194}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E681A80D-D338-4C70-BC45-13986EF13194}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E681A80D-D338-4C70-BC45-13986EF13194}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50A4EB77-9A47-48A6-AC13-EB845DA09434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50A4EB77-9A47-48A6-AC13-EB845DA09434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50A4EB77-9A47-48A6-AC13-EB845DA09434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50A4EB77-9A47-48A6-AC13-EB845DA09434}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

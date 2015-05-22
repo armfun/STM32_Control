@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--UI-->
+    <system:String x:Key="UI_DeviceID">硬件名称:</system:String>
+    <system:String x:Key="UI_DeviceIP">硬件地址:</system:String>
+    <system:String x:Key="UI_DevicePort">硬件端口:</system:String>
+    <system:String x:Key="UI_DevicePassword">硬件密码:</system:String>
+    
+    <system:String x:Key="UI_Connect">连接</system:String>
+    <system:String x:Key="UI_Modify">修改</system:String>
+    
+    <system:String x:Key="UI_Digit">数字输出</system:String>
+    <system:String x:Key="UI_Analog">模拟输入</system:String>
+    <system:String x:Key="UI_Impulse">脉冲宽度</system:String>
+    <system:String x:Key="UI_Humiture">温度湿度</system:String>
+    <system:String x:Key="UI_IR">红外收发</system:String>
+
+    <system:String x:Key="UI_GetDigit">获取数字状态</system:String>
+    <system:String x:Key="UI_GetAnalog">获取模拟状态</system:String>
+
+
+
+    <!--MSG-->
+    <system:String x:Key="MSG_Error">Error</system:String>
+
+</ResourceDictionary>
